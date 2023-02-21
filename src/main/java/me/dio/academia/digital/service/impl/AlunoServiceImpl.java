@@ -4,6 +4,7 @@ import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.entity.form.AlunoForm;
 import me.dio.academia.digital.entity.form.AlunoUpdateForm;
+import me.dio.academia.digital.handler.BusinessException;
 import me.dio.academia.digital.infra.util.JavaTimeUtils;
 import me.dio.academia.digital.repository.AlunoRepository;
 import me.dio.academia.digital.service.IAlunoService;
@@ -30,7 +31,7 @@ public class AlunoServiceImpl  implements IAlunoService {
     public Aluno get(Long id) {
 
         if (repository.existsById(id)) return repository.findById(id).get();
-        else return null;
+        else throw new BusinessException("Id inválido");
     }
     @Override
     public List<Aluno> getAll(String dataDeNascimento) {
@@ -49,13 +50,13 @@ public class AlunoServiceImpl  implements IAlunoService {
             aluno.setBairro(formUpdate.getBairro());
             aluno.setDataDeNascimento(formUpdate.getDataDeNascimento());
             return repository.save(aluno);
-        }else  return null;
+        }else  throw new BusinessException("Id inválido");
     }
     @Override
     public void delete(Long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
-        }else System.out.println("Id inválido");
+        }else throw new BusinessException("Id inválido");
     }
 
     @Override

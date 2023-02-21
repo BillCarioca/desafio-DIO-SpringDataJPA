@@ -2,6 +2,7 @@ package me.dio.academia.digital.service.impl;
 
 import me.dio.academia.digital.entity.Matricula;
 import me.dio.academia.digital.entity.form.MatriculaForm;
+import me.dio.academia.digital.handler.BusinessException;
 import me.dio.academia.digital.repository.AlunoRepository;
 import me.dio.academia.digital.repository.MatriculaRepository;
 import me.dio.academia.digital.service.IMatriculaService;
@@ -25,7 +26,8 @@ public class MatriculaServiseImpl implements IMatriculaService {
 
     @Override
     public Matricula get(Long id) {
-        return matriculaRepository.findById(id).get();
+        if(matriculaRepository.existsById(id)) return matriculaRepository.findById(id).get();
+        else throw new BusinessException("Id inválido");
     }
 
     @Override
@@ -39,6 +41,7 @@ public class MatriculaServiseImpl implements IMatriculaService {
 
     @Override
     public void delete(Long id) {
-    matriculaRepository.deleteById(id);
+        if(matriculaRepository.existsById(id)) matriculaRepository.deleteById(id);
+        else throw new BusinessException("Id inválido");
     }
 }

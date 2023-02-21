@@ -4,6 +4,7 @@ import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.entity.form.AvaliacaoFisicaForm;
 import me.dio.academia.digital.entity.form.AvaliacaoFisicaUpdateForm;
+import me.dio.academia.digital.handler.BusinessException;
 import me.dio.academia.digital.repository.AlunoRepository;
 import me.dio.academia.digital.repository.AvaliacaoFisicaRepository;
 import me.dio.academia.digital.service.IAvaliacaoFisicaService;
@@ -30,7 +31,7 @@ public class AvalicaoFisicaServiceImpl implements IAvaliacaoFisicaService {
     @Override
     public AvaliacaoFisica get(Long id) {
         if (avaliacaoFisicaRepository.existsById(id)) return avaliacaoFisicaRepository.findById(id).get();
-        else return null;
+        else throw new BusinessException("Id inválido");
     }
 
     @Override
@@ -45,12 +46,12 @@ public class AvalicaoFisicaServiceImpl implements IAvaliacaoFisicaService {
             avaliacaoFisica.setPeso(formUpdate.getPeso());
             avaliacaoFisica.setAltura(formUpdate.getAltura());
             return avaliacaoFisicaRepository.save(avaliacaoFisica);
-        }else return null;
+        }else throw new BusinessException("Id inválido");
     }
 
     @Override
     public void delete(Long id) {
         if (avaliacaoFisicaRepository.existsById(id)) avaliacaoFisicaRepository.deleteById(id);
-        else System.out.println("Id inválido");
+        else throw new BusinessException("Id inválido");
     }
 }
